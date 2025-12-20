@@ -59,12 +59,12 @@ export default function BottomDock() {
   return (
     <>
       {/* Bottom Navigation Dock */}
-      <div className="btm-nav btm-nav-lg bg-base-200 border-t-2 border-base-300 shadow-2xl z-50">
+      <div className="btm-nav btm-nav-lg bg-base-200 border-t-2 border-primary/30 shadow-2xl shadow-primary/10 z-50">
         {navItems.map((item) => (
           <Link
             key={item.path}
             href={item.path}
-            className={isActive(item.path) ? "active bg-primary text-primary-content" : ""}
+            className={isActive(item.path) ? "active bg-primary text-primary-content" : "hover:bg-primary/10 hover:text-primary transition-colors"}
           >
             <span className="text-2xl">{item.icon}</span>
             <span className="btm-nav-label text-xs">{item.label}</span>
@@ -74,12 +74,12 @@ export default function BottomDock() {
         {/* Stack Toggle Button */}
         <button
           onClick={() => setShowStack(!showStack)}
-          className={`${showStack ? "active bg-secondary text-secondary-content" : ""}`}
+          className={`${showStack ? "active bg-accent text-accent-content" : "hover:bg-accent/10 hover:text-accent"} transition-colors`}
         >
           <span className="text-2xl">📚</span>
           <span className="btm-nav-label text-xs">Pages</span>
           {pageStack.length > 0 && (
-            <div className="badge badge-sm badge-error absolute top-2 right-2">
+            <div className="badge badge-sm badge-accent absolute top-2 right-2 border-accent-content">
               {pageStack.length}
             </div>
           )}
@@ -88,16 +88,16 @@ export default function BottomDock() {
 
       {/* Page Stack Sidebar - Right Side */}
       <div 
-        className={`fixed right-0 bottom-20 h-[calc(100vh-10rem)] w-80 bg-base-200 border-l-2 border-base-300 shadow-2xl transform transition-transform duration-300 z-40 overflow-hidden ${
+        className={`fixed right-0 bottom-20 h-[calc(100vh-10rem)] w-80 bg-base-200 border-l-2 border-primary/30 shadow-2xl shadow-primary/10 transform transition-transform duration-300 z-40 overflow-hidden ${
           showStack ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div className="p-4 h-full flex flex-col">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-bold">Recent Pages</h3>
+            <h3 className="text-lg font-bold text-primary">Recent Pages</h3>
             <button 
               onClick={() => setShowStack(false)}
-              className="btn btn-sm btn-circle btn-ghost"
+              className="btn btn-sm btn-circle btn-ghost hover:bg-primary/10 hover:text-primary"
             >
               ✕
             </button>
@@ -117,17 +117,17 @@ export default function BottomDock() {
                   className={`block`}
                 >
                   <div
-                    className={`card bg-base-100 shadow-lg hover:shadow-xl transition-all cursor-pointer border-2 ${
+                    className={`card shadow-lg hover:shadow-xl transition-all cursor-pointer border-2 ${
                       index === 0 
-                        ? "border-primary scale-105" 
-                        : "border-base-300 hover:border-primary"
-                    } ${index === 0 ? "ring-2 ring-primary ring-offset-2 ring-offset-base-200" : ""}`}
+                        ? "bg-gradient-to-br from-primary/20 to-secondary/20 border-accent scale-105 ring-2 ring-accent ring-offset-2 ring-offset-base-200" 
+                        : "bg-base-300 border-primary/20 hover:border-accent hover:bg-gradient-to-br hover:from-primary/10 hover:to-secondary/10"
+                    }`}
                   >
                     <div className="card-body p-4">
                       <div className="flex items-center gap-3">
                         <span className="text-3xl">{page.icon}</span>
                         <div className="flex-1 min-w-0">
-                          <h4 className={`font-semibold truncate ${index === 0 ? "text-primary" : ""}`}>
+                          <h4 className={`font-semibold truncate ${index === 0 ? "text-accent" : "text-primary"}`}>
                             {page.title}
                           </h4>
                           <p className="text-xs text-base-content/60 truncate">
@@ -135,15 +135,15 @@ export default function BottomDock() {
                           </p>
                         </div>
                         {index === 0 && (
-                          <div className="badge badge-primary badge-sm">
+                          <div className="badge badge-accent badge-sm">
                             Current
                           </div>
                         )}
                       </div>
                       
                       {/* Mini preview mockup */}
-                      <div className="mt-3 bg-base-300 rounded-lg p-2 text-xs opacity-70">
-                        <div className="h-16 bg-base-100 rounded flex items-center justify-center">
+                      <div className="mt-3 bg-base-100 border border-primary/10 rounded-lg p-2 text-xs opacity-70">
+                        <div className="h-16 bg-gradient-to-br from-primary/5 to-secondary/5 rounded flex items-center justify-center">
                           <span className="text-2xl opacity-50">{page.icon}</span>
                         </div>
                       </div>
@@ -154,10 +154,10 @@ export default function BottomDock() {
             )}
           </div>
 
-          <div className="mt-4 pt-4 border-t border-base-300">
+          <div className="mt-4 pt-4 border-t border-primary/20">
             <button 
               onClick={() => setPageStack([])}
-              className="btn btn-sm btn-outline btn-error w-full"
+              className="btn btn-sm btn-outline btn-error hover:btn-error w-full"
             >
               Clear History
             </button>
@@ -168,7 +168,7 @@ export default function BottomDock() {
       {/* Backdrop */}
       {showStack && (
         <div 
-          className="fixed inset-0 bg-black/20 z-30"
+          className="fixed inset-0 bg-black/30 z-30"
           onClick={() => setShowStack(false)}
         />
       )}

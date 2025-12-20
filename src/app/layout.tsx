@@ -13,8 +13,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark">
-      <body className="pb-20">
+    <html lang="en" data-theme="aryamoon">
+      <body className="pb-20 bg-base-100">
         {children}
         <BottomDock />
       </body>

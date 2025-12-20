@@ -7,19 +7,8 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        // Custom brand colors
-        brand: {
-          sage: "#C8D2BC",
-          lime: "#9DF38C",
-          mauve: "#AB82A0",
-          plum: "#917693",
-        },
-      },
-    },
+    // Keep extend empty to avoid conflicts with DaisyUI theming
+    extend: {},
   },
   plugins: [require("daisyui")],
   daisyui: {
@@ -53,7 +42,7 @@ const config: Config = {
     base: true,
     styled: true,
     utils: true,
-    logs: false,
+    logs: false, // Set to true for debugging theme issues
   },
 };
 

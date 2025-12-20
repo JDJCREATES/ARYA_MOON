@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "../styles/globals.css";
+import BottomDock from "@/components/navigation/BottomDock";
 
 export const metadata: Metadata = {
   title: "Arya Moon - Private Gallery Marketplace",
@@ -12,8 +13,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" data-theme="dark">
+      <body className="pb-20">
+        {children}
+        <BottomDock />
+      </body>
     </html>
   );
 }

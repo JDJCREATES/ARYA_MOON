@@ -8,22 +8,25 @@ export default function SignInPage() {
     <div className="min-h-screen flex flex-col">
       <Header />
       
-      <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-            <p className="text-gray-600 dark:text-gray-400">
-              Sign in to your account
-            </p>
-          </div>
-          
-          <div className="bg-white dark:bg-gray-800 p-8 rounded-lg border shadow-sm">
+      <main className="flex-1 flex items-center justify-center px-4 py-12 bg-base-200">
+        <div className="card w-full max-w-lg bg-base-100 shadow-2xl">
+          <div className="card-body">
+            <div className="text-center mb-6">
+              <div className="text-5xl mb-4">🔐</div>
+              <h1 className="text-3xl font-bold">Welcome Back</h1>
+              <p className="text-base-content/70 mt-2">
+                Sign in to your account
+              </p>
+            </div>
+            
             <SignInForm />
             
-            <div className="mt-6 text-center text-sm">
-              <p className="text-gray-600 dark:text-gray-400">
+            <div className="divider">OR</div>
+            
+            <div className="text-center">
+              <p className="text-sm text-base-content/70">
                 Don't have an account?{" "}
-                <Link href="/auth/signup" className="text-blue-600 hover:underline">
+                <Link href="/auth/signup" className="link link-primary">
                   Sign up
                 </Link>
               </p>

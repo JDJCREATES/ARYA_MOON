@@ -1,45 +1,30 @@
 import { memo } from "react";
 
 /**
- * Footer component
+ * Footer component with DaisyUI styling
  * Memoized to prevent unnecessary re-renders
  */
 function FooterComponent() {
   const currentYear = new Date().getFullYear();
   
   return (
-    <footer className="border-t mt-auto" role="contentinfo">
-      <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="font-bold mb-4">Arya Moon</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Premium private gallery marketplace
-            </p>
-          </div>
-          
-          <div>
-            <h4 className="font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="/galleries" className="hover:underline">Browse Galleries</a></li>
-              <li><a href="/creator" className="hover:underline">Become a Creator</a></li>
-              <li><a href="/support" className="hover:underline">Support</a></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h4 className="font-semibold mb-4">Legal</h4>
-            <ul className="space-y-2 text-sm">
-              <li><a href="/privacy" className="hover:underline">Privacy Policy</a></li>
-              <li><a href="/terms" className="hover:underline">Terms of Service</a></li>
-            </ul>
-          </div>
-        </div>
-        
-        <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          © {currentYear} Arya Moon. All rights reserved.
-        </div>
-      </div>
+    <footer className="footer footer-center p-10 bg-base-200 text-base-content rounded" role="contentinfo">
+      <nav className="grid grid-flow-col gap-4">
+        <a href="/galleries" className="link link-hover">Browse Galleries</a>
+        <a href="/creator" className="link link-hover">Become a Creator</a>
+        <a href="/support" className="link link-hover">Support</a>
+        <a href="/privacy" className="link link-hover">Privacy Policy</a>
+        <a href="/terms" className="link link-hover">Terms of Service</a>
+      </nav>
+      
+      <aside>
+        <p className="font-bold">
+          <span className="text-2xl mr-2">🌙</span>
+          Arya Moon Gallery Marketplace
+        </p>
+        <p className="text-sm opacity-70">Premium private gallery marketplace</p>
+        <p className="text-xs opacity-50 mt-2">© {currentYear} Arya Moon. All rights reserved.</p>
+      </aside>
     </footer>
   );
 }

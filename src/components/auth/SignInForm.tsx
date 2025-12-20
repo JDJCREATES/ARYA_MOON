@@ -1,12 +1,11 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import Button from "@/components/ui/Button";
 import { useAuthStore } from "@/store/authStore";
 import { isValidEmail } from "@/lib/utils/validators";
 
 /**
- * SignInForm component with input validation and error handling
+ * SignInForm component with DaisyUI styling
  * Uses Zustand store for state management
  */
 export default function SignInForm() {
@@ -52,14 +51,17 @@ export default function SignInForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       {displayError && (
-        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-sm">
-          {displayError}
+        <div className="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{displayError}</span>
         </div>
       )}
       
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium mb-2">
-          Email
+      <div className="form-control">
+        <label className="label" htmlFor="email">
+          <span className="label-text">Email</span>
         </label>
         <input
           id="email"
@@ -68,15 +70,16 @@ export default function SignInForm() {
           onChange={(e) => setEmail(e.target.value)}
           required
           autoComplete="email"
+          placeholder="your@email.com"
+          className={`input input-bordered w-full ${displayError ? "input-error" : ""}`}
           aria-required="true"
           aria-invalid={!!validationError}
-          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800"
         />
       </div>
       
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium mb-2">
-          Password
+      <div className="form-control">
+        <label className="label" htmlFor="password">
+          <span className="label-text">Password</span>
         </label>
         <input
           id="password"
@@ -85,20 +88,31 @@ export default function SignInForm() {
           onChange={(e) => setPassword(e.target.value)}
           required
           autoComplete="current-password"
+          placeholder="••••••••"
+          className={`input input-bordered w-full ${displayError ? "input-error" : ""}`}
           aria-required="true"
           aria-invalid={!!validationError}
-          className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800"
         />
+        <label className="label">
+          <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+        </label>
       </div>
       
-      <Button 
+      <button 
         type="submit" 
-        className="w-full"
+        className={`btn btn-primary w-full ${isLoading ? "loading" : ""}`}
         disabled={isLoading}
         aria-busy={isLoading}
       >
-        {isLoading ? "Signing in..." : "Sign In"}
-      </Button>
+        {isLoading ? (
+          <>
+            <span className="loading loading-spinner"></span>
+            Signing in...
+          </>
+        ) : (
+          "Sign In"
+        )}
+      </button>
     </form>
   );
 }

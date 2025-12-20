@@ -2,30 +2,43 @@ import Link from "next/link";
 import { memo } from "react";
 
 /**
- * Header component with navigation
+ * Header component with DaisyUI navbar
  * Memoized to prevent unnecessary re-renders
  */
 function HeaderComponent() {
   return (
-    <header className="border-b" role="banner">
-      <nav className="container mx-auto px-4 py-4 flex items-center justify-between" aria-label="Main navigation">
-        <Link href="/" className="text-2xl font-bold" aria-label="Arya Moon home">
+    <div className="navbar bg-base-100 shadow-lg" role="banner">
+      <div className="navbar-start">
+        <Link href="/" className="btn btn-ghost text-xl" aria-label="Arya Moon home">
+          <span className="text-2xl">🌙</span>
           Arya Moon
         </Link>
-        
-        <div className="flex items-center gap-6">
-          <Link href="/galleries" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-            Galleries
-          </Link>
-          <Link href="/about" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-            About
-          </Link>
-          <Link href="/auth/signin" className="hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
-            Sign In
-          </Link>
-        </div>
-      </nav>
-    </header>
+      </div>
+      
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal px-1">
+          <li>
+            <Link href="/galleries">
+              <span className="mr-1">🖼️</span>
+              Galleries
+            </Link>
+          </li>
+          <li>
+            <Link href="/about">
+              <span className="mr-1">ℹ️</span>
+              About
+            </Link>
+          </li>
+        </ul>
+      </div>
+      
+      <div className="navbar-end">
+        <Link href="/auth/signin" className="btn btn-primary btn-sm">
+          <span className="mr-1">🔐</span>
+          Sign In
+        </Link>
+      </div>
+    </div>
   );
 }
 

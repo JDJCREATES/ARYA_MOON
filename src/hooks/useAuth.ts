@@ -1,49 +1,37 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { User } from "@/types";
-import { authService } from "@/services/auth/authService";
+import { useEffect } from "react";
+import { useAuthStore } from "@/store/authStore";
 
+/**
+ * Custom hook for authentication using Zustand store
+ * Provides backward compatibility with the previous useState-based implementation
+ * 
+ * @returns Authentication state and methods
+ */
 export function useAuth() {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { 
+    user, 
+    loading, 
+    error,
+    signIn, 
+    signOut, 
+    checkAuth,
+    clearError 
+  } = useAuthStore();
   
   useEffect(() => {
+    // Check authentication on mount
     checkAuth();
-  }, []);
-  
-  const checkAuth = async () => {
-    try {
-      const response = await authService.getCurrentUser();
-      if (response.success && response.data) {
-        setUser(response.data);
-      }
-    } catch (error) {
-      console.error("Auth check failed:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-  const signIn = async (email: string, password: string) => {
-    const response = await authService.signIn(email, password);
-    if (response.success && response.data) {
-      setUser(response.data.user);
-      return true;
-    }
-    return false;
-  };
-  
-  const signOut = async () => {
-    await authService.signOut();
-    setUser(null);
-  };
+  }, [checkAuth]);
   
   return {
     user,
     loading,
+    error,
     signIn,
     signOut,
+    clearError,
     isAuthenticated: !!user,
   };
 }

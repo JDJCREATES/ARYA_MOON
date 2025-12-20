@@ -1,78 +1,69 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Gallery } from "@/types";
+import { useEffect } from "react";
+import { useGalleryStore } from "@/store/galleryStore";
 import { GalleryFilters } from "@/types/api";
-import { galleryService } from "@/services/gallery/galleryService";
 
+/**
+ * Custom hook for fetching galleries using Zustand store
+ * 
+ * @param filters - Optional filters for galleries
+ * @returns Galleries state and methods
+ */
 export function useGalleries(filters?: GalleryFilters) {
-  const [galleries, setGalleries] = useState<Gallery[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { 
+    galleries, 
+    loading, 
+    error, 
+    fetchGalleries,
+    clearError 
+  } = useGalleryStore();
   
   useEffect(() => {
-    fetchGalleries();
-  }, [JSON.stringify(filters)]);
-  
-  const fetchGalleries = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await galleryService.getGalleries(filters);
-      
-      if (response.success && response.data) {
-        setGalleries(response.data);
-      } else {
-        setError(response.error?.message || "Failed to fetch galleries");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchGalleries(filters);
+  }, [filters?.page, filters?.limit, filters?.category, filters?.search, fetchGalleries]);
   
   return {
     galleries,
     loading,
     error,
-    refetch: fetchGalleries,
+    refetch: () => fetchGalleries(filters),
+    clearError,
   };
 }
 
+/**
+ * Custom hook for fetching a single gallery using Zustand store
+ * 
+ * @param id - Gallery ID
+ * @returns Gallery state and methods
+ */
 export function useGallery(id: string) {
-  const [gallery, setGallery] = useState<Gallery | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { 
+    currentGallery: gallery, 
+    loading, 
+    error, 
+    fetchGalleryById,
+    clearCurrentGallery,
+    clearError 
+  } = useGalleryStore();
   
   useEffect(() => {
     if (id) {
-      fetchGallery();
+      fetchGalleryById(id);
     }
-  }, [id]);
-  
-  const fetchGallery = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await galleryService.getGalleryById(id);
-      
-      if (response.success && response.data) {
-        setGallery(response.data);
-      } else {
-        setError(response.error?.message || "Failed to fetch gallery");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-    }
-  };
+    
+    // Cleanup on unmount
+    return () => {
+      clearCurrentGallery();
+    };
+  }, [id, fetchGalleryById, clearCurrentGallery]);
   
   return {
     gallery,
     loading,
     error,
-    refetch: fetchGallery,
+    refetch: () => fetchGalleryById(id),
+    clearError,
   };
 }

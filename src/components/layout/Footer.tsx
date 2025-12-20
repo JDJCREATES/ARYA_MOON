@@ -1,6 +1,14 @@
-export default function Footer() {
+import { memo } from "react";
+
+/**
+ * Footer component
+ * Memoized to prevent unnecessary re-renders
+ */
+function FooterComponent() {
+  const currentYear = new Date().getFullYear();
+  
   return (
-    <footer className="border-t mt-auto">
+    <footer className="border-t mt-auto" role="contentinfo">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
@@ -29,9 +37,11 @@ export default function Footer() {
         </div>
         
         <div className="mt-8 pt-8 border-t text-center text-sm text-gray-600">
-          © {new Date().getFullYear()} Arya Moon. All rights reserved.
+          © {currentYear} Arya Moon. All rights reserved.
         </div>
       </div>
     </footer>
   );
 }
+
+export default memo(FooterComponent);

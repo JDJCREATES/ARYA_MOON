@@ -71,20 +71,35 @@ export function sanitizeEmail(email: string): string {
 
 /**
  * Escape SQL wildcards for LIKE queries
+ * Properly escapes backslashes first to prevent bypass
  * 
  * @param input - Search query
  * @returns Escaped string
  */
 export function escapeSqlWildcards(input: string): string {
-  return input.replace(/[%_]/g, '\\$&');
+  // Escape backslashes first to prevent bypass
+  return input
+    .replace(/\\/g, '\\\\')
+    .replace(/%/g, '\\%')
+    .replace(/_/g, '\\_');
 }
 
 /**
  * Remove all HTML tags from string
+ * Uses multiple passes to prevent nested tag bypass
  * 
  * @param input - String with HTML
  * @returns Plain text
  */
 export function stripHtmlTags(input: string): string {
-  return input.replace(/<[^>]*>/g, '');
+  let result = input;
+  let previousResult = '';
+  
+  // Keep stripping until no more tags are found (handles nested tags)
+  while (result !== previousResult) {
+    previousResult = result;
+    result = result.replace(/<[^>]*>/g, '');
+  }
+  
+  return result;
 }
